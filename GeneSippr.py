@@ -93,6 +93,8 @@ class Automate(object):
             f.close()
             f = open(work_dir + '/' + str(issue.id) + '.sh', 'w')
             for line in lines:
+                if 'job_%j' in line:
+                    line = line.replace('job', 'biorequest_' + str(issue.id) + '_job')
                 f.write(line)
             f.write('docker run -i -u $(id -u) -v /mnt/nas/bio_requests/8312/newsixteens/targets/:/targets' 
                     ' -v {}:/sequences sipprverse geneSipprV2/sipprverse/method.py -s /sequences -t /targets /sequences\n'.format(work_dir))
